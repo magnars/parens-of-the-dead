@@ -1,2 +1,3 @@
 target
 /.nrepl-port
+/figwheel_server.log

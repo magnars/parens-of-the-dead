@@ -1,3 +1,3 @@
 (ns undead.client)
 
-(js/alert "BRAINS!?")
+(js/alert "OOOOH YEAH")
