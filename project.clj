@@ -6,10 +6,16 @@
   :jvm-opts ["-XX:MaxPermSize=256m"]
   :main undead.system
   :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "0.0-3308"]
                  [http-kit "2.1.18"]
                  [com.stuartsierra/component "0.2.3"]
-                 [reloaded.repl "0.1.0"]
                  [compojure "1.3.4"]]
-  :profiles {:dev {:plugins []
-                   :dependencies []
-                   :source-paths ["dev"]}})
+  :profiles {:dev {:plugins [[lein-cljsbuild "1.0.6"]]
+                   :dependencies [[reloaded.repl "0.1.0"]]
+                   :source-paths ["dev"]
+                   :cljsbuild {:builds [{:source-paths ["src" "dev"]
+                                         :compiler {:output-to "target/classes/public/app.js"
+                                                    :output-dir "target/classes/public/out"
+                                                    :optimizations :none
+                                                    :recompile-dependents true
+                                                    :source-map true}}]}}})
