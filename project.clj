@@ -18,6 +18,8 @@
                                          :figwheel true
                                          :compiler {:output-to "target/classes/public/app.js"
                                                     :output-dir "target/classes/public/out"
+                                                    :main "undead.client"
+                                                    :asset-path "/out"
                                                     :optimizations :none
                                                     :recompile-dependents true
                                                     :source-map true}}]}}})
