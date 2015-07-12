@@ -1,0 +1,129 @@
+.timer {
+    position: absolute;
+    top: 34px;
+    right: -80px;
+    width: 80px;
+    border-radius: 10px;
+    background: #a49e96;
+    height: 785px;
+    padding-top: 3px;
+}
+
+.timer-0 {right: -80px;}
+.timer-1 {right: -160px;}
+.timer-2 {right: -240px;}
+
+.sand {
+    border-radius:8px;
+    text-indent:0;
+    height:22px;
+    margin: 2px 5px;
+    -webkit-transition: all 1000ms;
+     background: #a49e96;
+    box-shadow: none;
+    border: 1px solid #000;
+    opacity: 0.1;
+}
+
+.sand.remaining {
+    opacity: 1;
+    box-shadow:inset 0px 1px 0px 0px #bee2f9;
+    background: -webkit-linear-gradient(top,       #63b8ee 5%, #468ccf 100%);
+    background:    -moz-linear-gradient(top,       #63b8ee 5%, #468ccf 100%);
+    border:1px solid #3866a3;
+}
+
+.sand.zombie {
+    border: 1px solid #000;
+    background: -webkit-linear-gradient(top,       #63ee63 5%, #46cf46 100%);
+    background:    -moz-linear-gradient(top,       #63ee63 5%, #46cf46 100%);
+    opacity: 0.3;
+}
+
+.board {
+    border: 10px solid #a49e96;
+    border-radius: 10px;
+    margin: 20px;
+    background: #938d85;
+}
+
+.cell {
+    float: left;
+    width: 200px;
+    height: 200px;
+    position: relative;
+    -webkit-perspective: 800px;
+    -moz-perspective: 800px;
+}
+
+.tile {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform 350ms, opacity 350ms;
+    -moz-transition: -webkit-transform 350ms, opacity 350ms;
+    -moz-transition: -moz-transform 350ms, opacity 350ms;
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+}
+
+.back,
+.front {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    border: 1px solid #000;
+}
+
+.back {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+}
+
+.front {
+    background: #ccc;
+}
+
+.front:hover {
+    background: #d2d2d2;
+    cursor: pointer;
+}
+
+.tile.revealed {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+}
+
+.tile.matched {
+    -webkit-transform: rotateY(180deg) scale(0.9, 0.9);
+    -moz-transform: rotateY(180deg) scale(0.9, 0.9);
+    opacity: 0.5;
+}
+
+.back {
+    background: url(zombie-tiles.jpg);
+    background-size: 1600px;
+    background-position: 300px 100px;
+}
+.back.h1 {background-position: 0 0;}
+.back.h2 {background-position: -200px 0;}
+.back.h3 {background-position: -400px 0;}
+.back.h4 {background-position: -600px 0;}
+.back.h5 {background-position: -800px 0;}
+.back.gy {background-position: -1000px 0;}
+.back.zo {background-position: -1200px 0;}
+.back.fg {background-position: -1400px 0;}
+
+.foggy .back.h1 {background-position: 0 -200px;}
+.foggy .back.h2 {background-position: -200px -200px;}
+.foggy .back.h3 {background-position: -400px -200px;}
+.foggy .back.h4 {background-position: -600px -200px;}
+.foggy .back.h5 {background-position: -800px -200px;}
+.foggy .back.gy {background-position: -1000px -200px;}
+.foggy .back.zo {background-position: -1200px -200px;}
+.foggy .back.fg {background-position: -1400px -200px;}
+

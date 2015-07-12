@@ -1,0 +1,116 @@
+body {
+    background: #b5afa7;
+    background-size: 380px;
+}
+
+body.interlude {
+    background-color: #000;
+}
+
+.narrative {
+    margin: 0 auto;
+    width: 800px;
+    padding-top: 200px;
+    font-size: 35px;
+    color: #999;
+    text-align: center;
+}
+
+.narrative p {
+    margin-bottom: 1em;
+}
+
+.narrative a {
+    color: red;
+}
+
+#main {
+    margin: 0 auto;
+    width: 864px;
+    position: relative;
+}
+
+.watermark {
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+}
+
+#eaten {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    opacity: 0;
+}
+
+.watermark {
+    -webkit-transition: background-color 1000ms;
+    -moz-transition: background-color 1000ms;
+}
+
+#eaten img {
+    margin: 200px auto 0;
+    display: block;
+    -webkit-transform: scale(0.1);
+    -moz-transform: scale(0.1);
+    -webkit-transition: all 1500ms cubic-bezier(0.215, 0.610, 0.150, 1.170);
+    -moz-transition: all 1500ms cubic-bezier(0.215, 0.610, 0.150, 1.170);
+}
+
+#eaten {
+    -webkit-transition: opacity 1000ms;
+    -moz-transition: opacity 1000ms;
+}
+
+.watermark.flash-red {
+    background-color: red;
+    -webkit-transition: none;
+    -moz-transition: none;
+}
+
+.game-over .watermark {
+    z-index: 1;
+    background-color: red;
+}
+
+.game-over #eaten {
+    opacity: 1;
+    z-index: 2;
+}
+
+.game-over #eaten img {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+}
+
+.game-over #main {
+    display: none;
+}
+
+body.game-over {
+    background: #b5afa7;
+}
+
+clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+html[xmlns] .clearfix {
+    display: block;
+}
+
+* html .clearfix {
+    height: 1%;
+}
