@@ -2,7 +2,7 @@
   (:require [quiescent.core :as q]
             [quiescent.dom :as d]))
 
-(def game {:board [{:face :h1} {:face :h1} {:face :h2} {:face :h2 :revealed? true}
+(def game {:tiles [{:face :h1} {:face :h1} {:face :h2} {:face :h2 :revealed? true}
                    {:face :h3} {:face :h3} {:face :h4 :matched? true} {:face :h4 :matched? true}
                    {:face :h5} {:face :h5} {:face :fg} {:face :fg}
                    {:face :zo} {:face :zo :matched? true} {:face :zo :matched? true} {:face :gy}]
@@ -10,21 +10,21 @@
                          (repeat 20 :remaining))
            :foggy? false})
 
-(q/defcomponent Cell [cell]
+(q/defcomponent Cell [tile]
   (d/div {:className "cell"}
          (d/div {:className (str "tile"
-                                 (when (:revealed? cell) " revealed")
-                                 (when (:matched? cell) " matched"))}
+                                 (when (:revealed? tile) " revealed")
+                                 (when (:matched? tile) " matched"))}
                 (d/div {:className "front"})
-                (d/div {:className (str "back " (name (:face cell)))}))))
+                (d/div {:className (str "back " (name (:face tile)))}))))
 
-(q/defcomponent Line [cells]
+(q/defcomponent Line [tiles]
   (apply d/div {:className "line"}
-         (map Cell cells)))
+         (map Cell tiles)))
 
-(q/defcomponent Board [cells]
+(q/defcomponent Board [tiles]
   (apply d/div {:className "board clearfix"}
-         (map Line (partition 4 cells))))
+         (map Line (partition 4 tiles))))
 
 (q/defcomponent Timer [{:keys [sand index]}]
   (apply d/div {:className (str "timer timer-" index)}
@@ -36,7 +36,7 @@
 
 (q/defcomponent Game [game]
   (d/div {:className (when (:foggy? game) "foggy")}
-         (Board (:board game))
+         (Board (:tiles game))
          (Timers (:sand game))))
 
 (q/render (Game game)
