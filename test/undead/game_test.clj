@@ -1,6 +1,6 @@
 (ns undead.game-test
-  (:require [undead.game :refer :all]
-            [expectations :refer :all]))
+  (:require [expectations :refer :all]
+            [undead.game :refer :all]))
 
 (defn- find-face-index [game face]
   (first (keep-indexed (fn [index tile]
@@ -72,3 +72,19 @@
              (reveal-one :zo)
              (reveal-one :zo)
              :tiles (map :face) frequencies))
+
+;; prep
+
+(expect {nil 16}
+        (->> (create-game) prep :tiles (map :face) frequencies))
+
+(expect {nil 15, :h1 1}
+        (->> (create-game) (reveal-one :h1)
+             prep :tiles (map :face) frequencies))
+
+(expect {nil 14, :h1 2}
+        (->> (create-game) (reveal-one :h1) (reveal-one :h1)
+             prep :tiles (map :face) frequencies))
+
+(expect (range 0 16)
+        (->> (create-game) prep :tiles (map :id)))
