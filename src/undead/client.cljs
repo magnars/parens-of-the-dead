@@ -14,4 +14,7 @@
       (loop []
         (when-let [game (:message (<! ws-channel))]
           (render-game game container ws-channel)
-          (recur))))))
+          (cond
+            (:dead? game) (set! (.-className (.-body js/document)) "game-over")
+            (:safe? game) (set! (.-location js/document) "/safe.html")
+            :else (recur)))))))

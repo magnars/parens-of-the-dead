@@ -107,3 +107,60 @@
         (->> (create-game) (reveal-one :h1) (reveal-one :h2)
              tick tick tick tick
              prep :tiles (map :face) frequencies))
+
+;; tick - time to die
+
+(defn tick-n [n game]
+  (first (drop n (iterate tick game))))
+
+(expect [:gone :remaining]
+        (->> (create-game)
+             (tick-n 5)
+             :sand (take 2)))
+
+(expect {:gone 30}
+        (->> (create-game)
+             (tick-n 155)
+             :sand frequencies))
+
+(expect (->> (create-game)
+             (tick-n 151)
+             :dead?))
+
+;; getting out alive
+
+(defn reveal-two [face game]
+  (->> game (reveal-one face) (reveal-one face)))
+
+(defn reveal-all-houses [game]
+  (->> game
+       (reveal-two :h1)
+       (reveal-two :h2)
+       (reveal-two :h3)
+       (reveal-two :h4)
+       (reveal-two :h5)))
+
+(expect (not (->> (create-game)
+                  (reveal-all-houses)
+                  tick tick
+                  :safe?)))
+
+(expect empty? (->> (create-game)
+                    (reveal-all-houses)
+                    tick tick tick
+                    :tiles (filter :matched?)))
+
+(expect 60 (->> (create-game)
+                (reveal-all-houses) tick tick tick
+                :sand count))
+
+(expect 90 (->> (create-game)
+                (reveal-all-houses) tick tick tick
+                (reveal-all-houses) tick tick tick
+                :sand count))
+
+(expect (->> (create-game)
+             (reveal-all-houses) tick tick tick
+             (reveal-all-houses) tick tick tick
+             (reveal-all-houses) tick tick tick
+             :safe?))
