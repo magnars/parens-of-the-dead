@@ -20,9 +20,10 @@
         (>! ws-channel (prep game))
         (if (game-on? game)
           (when-let [[value port] (alts! [ws-channel tick-ch])]
-            (condp = port
-              ws-channel (recur (reveal-tile game (:message value)))
-              tick-ch (recur (tick game))))
-          (do
-            (close! tick-ch)
-            (close! ws-channel)))))))
+            (when value
+              (condp = port
+                ws-channel (recur (reveal-tile game (:message value)))
+                tick-ch (recur (tick game)))))))
+      (close! tick-ch)
+      (<! (timeout 5000))
+      (close! ws-channel))))
