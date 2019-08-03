@@ -17,6 +17,7 @@
                              [lein-figwheel "0.5.19"]
                              [lein-expectations "0.0.8"]]
                    :dependencies [[reloaded.repl "0.2.4"]]
+                   :repl-options {:init-ns user}
                    :source-paths ["dev"]
                    :cljsbuild {:builds [{:source-paths ["src" "dev"]
                                          :figwheel true
