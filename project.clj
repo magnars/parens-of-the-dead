@@ -1,22 +1,22 @@
 (defproject parens-of-the-dead "0.1.0-SNAPSHOT"
   :description "A series of zombie-themed games written with Clojure and ClojureScript."
   :url "http://www.parens-of-the-dead.com"
-  :license {:name "GNU General Public License"
-            :url "http://www.gnu.org/licenses/gpl.html"}
-  :jvm-opts ["-XX:MaxPermSize=256m"]
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
   :main undead.system
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "0.0-3308"]
-                 [http-kit "2.1.18"]
-                 [com.stuartsierra/component "0.2.3"]
-                 [compojure "1.3.4"]
-                 [quiescent "0.2.0-RC2"]
-                 [expectations "2.1.2"]
-                 [jarohen/chord "0.6.0"]
-                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]]
-  :profiles {:dev {:plugins [[lein-cljsbuild "1.0.6"]
-                             [lein-figwheel "0.3.7"]]
-                   :dependencies [[reloaded.repl "0.1.0"]]
+  :dependencies [[org.clojure/clojure "1.10.1"]
+                 [org.clojure/clojurescript "1.10.520"]
+                 [http-kit "2.3.0"]
+                 [com.stuartsierra/component "0.4.0"]
+                 [compojure "1.6.1"]
+                 [quiescent "0.3.2"]
+                 [expectations "2.1.10"]
+                 [jarohen/chord "0.8.1"]
+                 [org.clojure/core.async "0.4.500"]]
+  :profiles {:dev {:plugins [[lein-cljsbuild "1.1.7"]
+                             [lein-figwheel "0.5.19"]
+                             [lein-expectations "0.0.8"]]
+                   :dependencies [[reloaded.repl "0.2.4"]]
                    :source-paths ["dev"]
                    :cljsbuild {:builds [{:source-paths ["src" "dev"]
                                          :figwheel true
