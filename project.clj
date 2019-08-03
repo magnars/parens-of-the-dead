@@ -15,7 +15,8 @@
                  [org.clojure/core.async "0.4.500"]]
   :profiles {:dev {:plugins [[lein-cljsbuild "1.1.7"]
                              [lein-figwheel "0.5.19"]
-                             [lein-expectations "0.0.8"]]
+                             [lein-expectations "0.0.8"]
+                             [lein-autoexpect "1.9.0"]]
                    :dependencies [[reloaded.repl "0.2.4"]]
                    :repl-options {:init-ns user}
                    :source-paths ["dev"]
