@@ -20,7 +20,7 @@
 
 (expect #(< 10 %) (count (set (repeatedly 100 create-game))))
 
-(expect {:remaining 30} (frequencies (:sand (create-game))))
+(expect {:total 30} (:sand (create-game)))
 
 ;; reveal-tile
 
@@ -59,12 +59,12 @@
              (reveal-one :fg)
              :foggy?))
 
-(expect [:zombie :zombie :zombie :remaining]
+(expect {:gone [:zombie :zombie :zombie]
+         :total 30}
         (->> (create-game)
              (reveal-one :zo)
              (reveal-one :zo)
-             :sand
-             (take 4)))
+             :sand))
 
 (expect {:h1 2 :h2 2 :h3 2 :h4 2 :h5 2
          :fg 2 :zo 4}
@@ -89,6 +89,21 @@
 (expect (range 0 16)
         (->> (create-game) prep :tiles (map :id)))
 
+;; prep sand
+
+(defn tick-n [n game]
+  (first (drop n (iterate tick game))))
+
+(expect {:remaining 30}
+        (->> (create-game) prep :sand frequencies))
+
+(expect {:remaining 29
+         :gone 1}
+        (->> (create-game) (tick-n 5) prep :sand frequencies))
+
+(expect [:gone :remaining]
+        (->> (create-game) (tick-n 5) prep :sand (take 2)))
+
 ;; tick - concealment
 
 (expect 2 (->> (create-game)
@@ -103,6 +118,7 @@
                tick tick tick
                :tiles (filter :revealed?) count))
 
+
 (expect {nil 14, :h1 1, :h2 1}
         (->> (create-game) (reveal-one :h1) (reveal-one :h2)
              tick tick tick tick
@@ -110,18 +126,19 @@
 
 ;; tick - time to die
 
-(defn tick-n [n game]
-  (first (drop n (iterate tick game))))
-
-(expect [:gone :remaining]
+(expect {:gone [:gone]
+         :total 30}
         (->> (create-game)
              (tick-n 5)
-             :sand (take 2)))
+             :sand))
 
+;; why did this test check that we did not get 31 gone?
 (expect {:gone 30}
         (->> (create-game)
-             (tick-n 155)
-             :sand frequencies))
+             (tick-n 151)
+             :sand
+             :gone
+             frequencies))
 
 (expect (->> (create-game)
              (tick-n 151)
@@ -150,14 +167,16 @@
                     tick tick tick
                     :tiles (filter :matched?)))
 
-(expect 60 (->> (create-game)
-                (reveal-all-houses) tick tick tick
-                :sand count))
+(expect 60
+        (->> (create-game)
+             (reveal-all-houses) tick tick tick
+             :sand :total))
 
-(expect 90 (->> (create-game)
-                (reveal-all-houses) tick tick tick
-                (reveal-all-houses) tick tick tick
-                :sand count))
+(expect 90
+        (->> (create-game)
+             (reveal-all-houses) tick tick tick
+             (reveal-all-houses) tick tick tick
+             :sand :total))
 
 (expect (->> (create-game)
              (reveal-all-houses) tick tick tick

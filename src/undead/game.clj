@@ -11,7 +11,7 @@
 
 (defn create-game []
   {:tiles (create-board)
-   :sand (repeat 30 :remaining)
+   :sand {:total 30}
    :ticks 0})
 
 (defn- revealed-tiles [game]
@@ -21,7 +21,7 @@
   (> 2 (count (revealed-tiles game))))
 
 (defn update-tiles [game f]
-  (update-in game [:tiles] #(mapv f %)))
+  (update game :tiles #(mapv f %)))
 
 (defn- match-revealed [tile]
   (if (:revealed? tile)
@@ -34,14 +34,6 @@
                (= 1 (count (set (map :face revealed)))))
       (:face (first revealed)))))
 
-(defn- replace-remaining [sand replacement]
-  (take (count sand)
-        (concat
-         (take-while (complement #{:remaining}) sand)
-         replacement
-         (->> (drop-while (complement #{:remaining}) sand)
-              (drop (count replacement))))))
-
 (defn- wake-the-dead [tile]
   (if (= :gy (:face tile))
     (assoc tile :face :zo)
@@ -51,7 +43,7 @@
   (case match
     :fg (assoc game :foggy? true)
     :zo (-> game
-            (update-in [:sand] #(replace-remaining % (repeat 3 :zombie)))
+            (update-in [:sand :gone] concat (repeat 3 :zombie))
             (update-tiles wake-the-dead))
     game))
 
@@ -102,9 +94,13 @@
 (defn- assoc-ids [tiles]
   (map-indexed #(assoc %2 :id %1) tiles))
 
+(defn flatten-sand [{:keys [total gone]}]
+  (concat gone (repeat (- total (count gone)) :remaining)))
+
 (defn prep [game]
   (-> game
-      (update-in [:tiles] assoc-ids)
+      (update :sand flatten-sand)
+      (update :tiles assoc-ids)
       (update-tiles hide-face)))
 
 (defn conceal-face [tile]
@@ -116,17 +112,17 @@
 
 (defn count-down-sand [game]
   (if (= 0 (mod (:ticks game) 5))
-    (update game :sand #(replace-remaining % [:gone]))
+    (update-in game [:sand :gone] concat [:gone])
     game))
 
 (defn on-last-round? [game]
-  (= 90 (count (:sand game))))
+  (= 90 (:total (:sand game))))
 
 (defn complete-round [game]
   (if (on-last-round? game)
     (assoc game :safe? true)
     (-> game
-        (update :sand #(concat % (repeat 30 :remaining)))
+        (update-in [:sand :total] + 30)
         (assoc :tiles (create-board)))))
 
 (defn count-down-completion [game]
@@ -137,8 +133,12 @@
           (complete-round))
     (update game :complete-countdown dec)))
 
+(defn is-dead? [{:keys [sand]}]
+  (<= (:total sand)
+      (count (:gone sand))))
+
 (defn tick [game]
-  (if (not-any? #{:remaining} (:sand game))
+  (if (is-dead? game)
     (assoc game :dead? true)
     (-> game
         (update :ticks inc)
