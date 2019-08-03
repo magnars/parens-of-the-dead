@@ -18,7 +18,7 @@
     (assoc this :server (start-server #'app 9009)))
   (stop [this]
     (stop-server (:server this))
-    (dissoc this :server)))
+    (assoc this :server nil)))
 
 (defn create-system []
   (ParensOfTheDead.))
