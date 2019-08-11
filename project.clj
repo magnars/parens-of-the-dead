@@ -9,7 +9,7 @@
                  [http-kit "2.3.0"]
                  [com.stuartsierra/component "0.4.0"]
                  [compojure "1.6.1"]
-                 [quiescent "0.3.2"]
+                 [cjohansen/dumdom "2019.02.03-3"]
                  [jarohen/chord "0.8.1"]
                  [org.clojure/core.async "0.4.500"]]
   :profiles {:dev {:plugins [[lein-cljsbuild "1.1.7"]

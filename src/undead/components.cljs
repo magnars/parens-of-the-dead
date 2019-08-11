@@ -1,40 +1,45 @@
 (ns undead.components
   (:require [cljs.core.async :refer [put!]]
-            [quiescent.core :as q]
-            [quiescent.dom :as d]))
+            [dumdom.core :as dumdom]
+            [dumdom.dom :as d]))
 
-(q/defcomponent Cell [tile reveal-ch]
-  (d/div {:className "cell"}
-         (d/div {:className (str "tile"
-                                 (when (:revealed? tile) " revealed")
-                                 (when (:matched? tile) " matched"))
-                 :onClick (fn [e]
-                            (.preventDefault e)
-                            (put! reveal-ch (:id tile)))}
-                (d/div {:className "front"})
-                (d/div {:className (str "back " (when (:face tile)
-                                                  (name (:face tile))))}))))
+(dumdom/defcomponent Cell [tile reveal-ch]
+  [:div {:className "cell"}
+    [:div {:className (str "tile"
+                            (when (:revealed? tile) " revealed")
+                            (when (:matched? tile) " matched"))
+            :onClick (fn [e]
+                       (.preventDefault e)
+                       (put! reveal-ch (:id tile)))}
+      [:div {:className "front"}]
+      [:div {:className (str "back " (when (:face tile)
+                                        (name (:face tile))))}]]])
 
-(q/defcomponent Line [tiles reveal-ch]
-  (apply d/div {:className "line"}
-         (map #(Cell % reveal-ch) tiles)))
+(dumdom/defcomponent Line [tiles reveal-ch]
+  [:div {:className "line"}
+   (for [tile tiles]
+     [Cell tile reveal-ch])])
 
-(q/defcomponent Board [tiles reveal-ch]
-  (apply d/div {:className "board clearfix"}
-         (map #(Line % reveal-ch) (partition 4 tiles))))
+(dumdom/defcomponent Board [tiles reveal-ch]
+  [:div {:className "board clearfix"}
+   (for [four-tiles (partition 4 tiles)]
+     [Line four-tiles reveal-ch])])
 
-(q/defcomponent Timer [{:keys [sand index]}]
-  (apply d/div {:className (str "timer timer-" index)}
-         (map #(d/div {:className (str "sand " (name %))}) sand)))
+(dumdom/defcomponent Timer [{:keys [sand index]}]
+  [:div {:className (str "timer timer-" index)}
+   (for [s sand]
+     [:div {:className (str "sand " (name s))}])])
 
-(q/defcomponent Timers [sand]
-  (apply d/div {}
-         (map-indexed #(Timer {:index %1 :sand %2}) (partition 30 sand))))
+(dumdom/defcomponent Timers [sand]
+  [:div {}
+   (map-indexed (fn [i s]
+                  [Timer {:index i :sand s}])
+                (partition 30 sand))])
 
-(q/defcomponent Game [game reveal-ch]
-  (d/div {:className (when (:foggy? game) "foggy")}
-         (Board (:tiles game) reveal-ch)
-         (Timers (:sand game))))
+(dumdom/defcomponent Game [game reveal-ch]
+  [:div {:className (when (:foggy? game) "foggy")}
+   [Board (:tiles game) reveal-ch]
+   [Timers (:sand game)]])
 
 (defn render-game [game container reveal-ch]
-  (q/render (Game game reveal-ch) container))
+  (dumdom/render (Game game reveal-ch) container))
