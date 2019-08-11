@@ -39,11 +39,14 @@
     (assoc tile :face :zo)
     tile))
 
+(defn add-to-gone [sand to-add]
+  (update sand :gone #(take (:total sand) (concat % to-add))))
+
 (defn- perform-match-actions [game match]
   (case match
     :fg (assoc game :foggy? true)
     :zo (-> game
-            (update-in [:sand :gone] concat (repeat 3 :zombie))
+            (update :sand add-to-gone (repeat 3 :zombie))
             (update-tiles wake-the-dead))
     game))
 
@@ -112,7 +115,7 @@
 
 (defn count-down-sand [game]
   (if (= 0 (mod (:ticks game) 5))
-    (update-in game [:sand :gone] concat [:gone])
+    (update game :sand add-to-gone [:gone])
     game))
 
 (defn on-last-round? [game]

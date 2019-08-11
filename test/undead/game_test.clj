@@ -101,6 +101,9 @@
     (is (= (->> (create-game) (tick-n 5) prep :sand (take 2))
            [:gone :remaining]))))
 
+(defn reveal-two [face game]
+  (->> game (reveal-one face) (reveal-one face)))
+
 (deftest tick-test
   (testing "concealment"
     (is (= (->> (create-game)
@@ -128,19 +131,19 @@
            {:gone [:gone]
             :total 30}))
 
+    ;; make sure we don't add more sand to the timer than total ... this would
+    ;; add 3 zombies due to the lack of remaining time
     (is (= (->> (create-game)
-                (tick-n 151)
+                (tick-n 149)
+                (reveal-two :zo)
                 :sand
                 :gone
-                frequencies) ;; fix with extra zombies
-           {:gone 30}))
+                frequencies)
+           {:gone 29 :zombie 1}))
 
     (is (->> (create-game)
              (tick-n 151)
              :dead?))))
-
-(defn reveal-two [face game]
-  (->> game (reveal-one face) (reveal-one face)))
 
 (defn reveal-all-houses [game]
   (->> game
