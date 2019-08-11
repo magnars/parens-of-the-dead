@@ -1,5 +1,5 @@
 (ns undead.game-test
-  (:require [expectations :refer :all]
+  (:require [clojure.test :refer [deftest is testing]]
             [undead.game :refer :all]))
 
 (defn- find-face-index [game face]
@@ -12,139 +12,132 @@
 (defn reveal-one [face game]
   (reveal-tile game (find-face-index game face)))
 
-;; create-game
+(deftest create-game-test
+  (is (= (->> (create-game) :tiles (map :face) frequencies)
+         {:h1 2 :h2 2 :h3 2 :h4 2 :h5 2
+          :fg 2 :zo 3 :gy 1}))
 
-(expect {:h1 2 :h2 2 :h3 2 :h4 2 :h5 2
-         :fg 2 :zo 3 :gy 1}
-        (->> (create-game) :tiles (map :face) frequencies))
+  (is (< 10 (count (set (repeatedly 100 create-game)))))
 
-(expect #(< 10 %) (count (set (repeatedly 100 create-game))))
+  (is (= (:sand (create-game)) {:total 30})))
 
-(expect {:total 30} (:sand (create-game)))
+(deftest reveal-tile-test
+  (is (= (->> (reveal-tile (create-game) 0)
+              :tiles (filter :revealed?) count)
+         1))
 
-;; reveal-tile
+  (is (= (->> (create-game)
+              (reveal-one :h1)
+              (reveal-one :h2)
+              (reveal-one :h3)
+              :tiles
+              (filter :revealed?)
+              (map :face)
+              (sort))
+         [:h1 :h2]))
 
-(expect 1 (->> (reveal-tile (create-game) 0)
-               :tiles (filter :revealed?) count))
+  (is (= (->> (create-game)
+              (reveal-one :h1)
+              (reveal-one :h1)
+              :tiles
+              (filter :matched?)
+              (map :face))
+         [:h1 :h1]))
 
-(expect [:h1 :h2]
-        (->> (create-game)
-             (reveal-one :h1)
-             (reveal-one :h2)
-             (reveal-one :h3)
-             :tiles
-             (filter :revealed?)
-             (map :face)
-             (sort)))
+  (is (= (->> (create-game)
+              (reveal-one :h1)
+              (reveal-one :h1)
+              (reveal-one :h3)
+              :tiles
+              (filter :revealed?)
+              (map :face))
+         [:h3]))
 
-(expect [:h1 :h1]
-        (->> (create-game)
-             (reveal-one :h1)
-             (reveal-one :h1)
-             :tiles
-             (filter :matched?)
-             (map :face)))
+  (is (->> (create-game)
+           (reveal-one :fg)
+           (reveal-one :fg)
+           :foggy?))
 
-(expect [:h3]
-        (->> (create-game)
-             (reveal-one :h1)
-             (reveal-one :h1)
-             (reveal-one :h3)
-             :tiles
-             (filter :revealed?)
-             (map :face)))
+  (is (= (->> (create-game)
+              (reveal-one :zo)
+              (reveal-one :zo)
+              :sand)
+         {:gone [:zombie :zombie :zombie]
+          :total 30}))
 
-(expect (->> (create-game)
-             (reveal-one :fg)
-             (reveal-one :fg)
-             :foggy?))
-
-(expect {:gone [:zombie :zombie :zombie]
-         :total 30}
-        (->> (create-game)
-             (reveal-one :zo)
-             (reveal-one :zo)
-             :sand))
-
-(expect {:h1 2 :h2 2 :h3 2 :h4 2 :h5 2
-         :fg 2 :zo 4}
-        (->> (create-game)
-             (reveal-one :zo)
-             (reveal-one :zo)
-             :tiles (map :face) frequencies))
-
-;; prep
-
-(expect {nil 16}
-        (->> (create-game) prep :tiles (map :face) frequencies))
-
-(expect {nil 15, :h1 1}
-        (->> (create-game) (reveal-one :h1)
-             prep :tiles (map :face) frequencies))
-
-(expect {nil 14, :h1 2}
-        (->> (create-game) (reveal-one :h1) (reveal-one :h1)
-             prep :tiles (map :face) frequencies))
-
-(expect (range 0 16)
-        (->> (create-game) prep :tiles (map :id)))
-
-;; prep sand
+  (is (= (->> (create-game)
+              (reveal-one :zo)
+              (reveal-one :zo)
+              :tiles (map :face) frequencies)
+         {:h1 2 :h2 2 :h3 2 :h4 2 :h5 2
+          :fg 2 :zo 4})))
 
 (defn tick-n [n game]
   (first (drop n (iterate tick game))))
 
-(expect {:remaining 30}
-        (->> (create-game) prep :sand frequencies))
+(deftest prep-test
+  (is (= (->> (create-game) prep :tiles (map :face) frequencies)
+         {nil 16}))
 
-(expect {:remaining 29
-         :gone 1}
-        (->> (create-game) (tick-n 5) prep :sand frequencies))
+  (is (= (->> (create-game) (reveal-one :h1)
+              prep :tiles (map :face) frequencies)
+         {nil 15, :h1 1}))
 
-(expect [:gone :remaining]
-        (->> (create-game) (tick-n 5) prep :sand (take 2)))
+  (is (= (->> (create-game) (reveal-one :h1) (reveal-one :h1)
+              prep :tiles (map :face) frequencies)
+         {nil 14, :h1 2}))
 
-;; tick - concealment
+  (is (= (->> (create-game) prep :tiles (map :id))
+         (range 0 16)))
 
-(expect 2 (->> (create-game)
-               (reveal-one :h1)
-               (reveal-one :h2)
-               tick tick
-               :tiles (filter :revealed?) count))
+  (testing "sand"
+    (is (= (->> (create-game) prep :sand frequencies)
+           {:remaining 30}))
 
-(expect 0 (->> (create-game)
-               (reveal-one :h1)
-               (reveal-one :h2)
-               tick tick tick
-               :tiles (filter :revealed?) count))
+    (is (= (->> (create-game) (tick-n 5) prep :sand frequencies)
+           {:remaining 29
+            :gone 1}))
+
+    (is (= (->> (create-game) (tick-n 5) prep :sand (take 2))
+           [:gone :remaining]))))
+
+(deftest tick-test
+  (testing "concealment"
+    (is (= (->> (create-game)
+                (reveal-one :h1)
+                (reveal-one :h2)
+                tick tick
+                :tiles (filter :revealed?) count) 2))
+
+    (is (= (->> (create-game)
+                (reveal-one :h1)
+                (reveal-one :h2)
+                tick tick tick
+                :tiles (filter :revealed?) count) 0))
 
 
-(expect {nil 14, :h1 1, :h2 1}
-        (->> (create-game) (reveal-one :h1) (reveal-one :h2)
-             tick tick tick tick
-             prep :tiles (map :face) frequencies))
+    (is (= (->> (create-game) (reveal-one :h1) (reveal-one :h2)
+                tick tick tick tick
+                prep :tiles (map :face) frequencies)
+           {nil 14, :h1 1, :h2 1})))
 
-;; tick - time to die
+  (testing "time to die"
+    (is (= (->> (create-game)
+                (tick-n 5)
+                :sand)
+           {:gone [:gone]
+            :total 30}))
 
-(expect {:gone [:gone]
-         :total 30}
-        (->> (create-game)
-             (tick-n 5)
-             :sand))
+    (is (= (->> (create-game)
+                (tick-n 151)
+                :sand
+                :gone
+                frequencies) ;; fix with extra zombies
+           {:gone 30}))
 
-;; why did this test check that we did not get 31 gone?
-(expect {:gone 30}
-        (->> (create-game)
+    (is (->> (create-game)
              (tick-n 151)
-             :sand
-             :gone
-             frequencies))
-
-(expect (->> (create-game)
-             (tick-n 151)
-             :dead?))
-
-;; getting out alive
+             :dead?))))
 
 (defn reveal-two [face game]
   (->> game (reveal-one face) (reveal-one face)))
@@ -157,29 +150,32 @@
        (reveal-two :h4)
        (reveal-two :h5)))
 
-(expect (not (->> (create-game)
-                  (reveal-all-houses)
-                  tick tick
-                  :safe?)))
+(deftest getting-out-alive-test
+  (is (not (->> (create-game)
+                (reveal-all-houses)
+                tick tick
+                :safe?)))
 
-(expect empty? (->> (create-game)
-                    (reveal-all-houses)
-                    tick tick tick
-                    :tiles (filter :matched?)))
+  (is (= (->> (create-game)
+              (reveal-all-houses)
+              tick tick tick
+              :tiles
+              (filter :matched?))
+         []))
 
-(expect 60
-        (->> (create-game)
-             (reveal-all-houses) tick tick tick
-             :sand :total))
+  (is (= (->> (create-game)
+              (reveal-all-houses) tick tick tick
+              :sand :total)
+         60))
 
-(expect 90
-        (->> (create-game)
-             (reveal-all-houses) tick tick tick
-             (reveal-all-houses) tick tick tick
-             :sand :total))
+  (is (= (->> (create-game)
+              (reveal-all-houses) tick tick tick
+              (reveal-all-houses) tick tick tick
+              :sand :total)
+         90))
 
-(expect (->> (create-game)
-             (reveal-all-houses) tick tick tick
-             (reveal-all-houses) tick tick tick
-             (reveal-all-houses) tick tick tick
-             :safe?))
+  (is (->> (create-game)
+           (reveal-all-houses) tick tick tick
+           (reveal-all-houses) tick tick tick
+           (reveal-all-houses) tick tick tick
+           :safe?)))

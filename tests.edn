@@ -1,0 +1,4 @@
+#kaocha/v1
+{:tests [{:id :unit
+          :focus-meta [:focus]}]
+ :plugins [:noyoda.plugin/swap-actual-and-expected]}
