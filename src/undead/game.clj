@@ -39,14 +39,14 @@
     (assoc tile :face :zo)
     tile))
 
-(defn add-to-gone [sand to-add]
-  (update sand :gone #(take (:total sand) (concat % to-add))))
+(defn add-to-timeline [sand to-add]
+  (update sand :timeline #(take (:total sand) (concat % to-add))))
 
 (defn- perform-match-actions [game match]
   (case match
     :fg (assoc game :foggy? true)
     :zo (-> game
-            (update :sand add-to-gone (repeat 3 :zombie))
+            (update :sand add-to-timeline (repeat 3 :zombie))
             (update-tiles wake-the-dead))
     game))
 
@@ -97,8 +97,8 @@
 (defn- assoc-ids [tiles]
   (map-indexed #(assoc %2 :id %1) tiles))
 
-(defn flatten-sand [{:keys [total gone]}]
-  (concat gone (repeat (- total (count gone)) :remaining)))
+(defn flatten-sand [{:keys [total timeline]}]
+  (concat timeline (repeat (- total (count timeline)) :remaining)))
 
 (defn prep [game]
   (-> game
@@ -115,7 +115,7 @@
 
 (defn count-down-sand [game]
   (if (= 0 (mod (:ticks game) 5))
-    (update game :sand add-to-gone [:gone])
+    (update game :sand add-to-timeline [:past])
     game))
 
 (defn on-last-round? [game]
@@ -138,7 +138,7 @@
 
 (defn is-dead? [{:keys [sand]}]
   (<= (:total sand)
-      (count (:gone sand))))
+      (count (:timeline sand))))
 
 (defn tick [game]
   (if (is-dead? game)

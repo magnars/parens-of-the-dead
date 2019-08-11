@@ -62,7 +62,7 @@
               (reveal-one :zo)
               (reveal-one :zo)
               :sand)
-         {:gone [:zombie :zombie :zombie]
+         {:timeline [:zombie :zombie :zombie]
           :total 30}))
 
   (is (= (->> (create-game)
@@ -96,10 +96,10 @@
 
     (is (= (->> (create-game) (tick-n 5) prep :sand frequencies)
            {:remaining 29
-            :gone 1}))
+            :past 1}))
 
     (is (= (->> (create-game) (tick-n 5) prep :sand (take 2))
-           [:gone :remaining]))))
+           [:past :remaining]))))
 
 (defn reveal-two [face game]
   (->> game (reveal-one face) (reveal-one face)))
@@ -128,7 +128,7 @@
     (is (= (->> (create-game)
                 (tick-n 5)
                 :sand)
-           {:gone [:gone]
+           {:timeline [:past]
             :total 30}))
 
     ;; make sure we don't add more sand to the timer than total ... this would
@@ -137,9 +137,9 @@
                 (tick-n 149)
                 (reveal-two :zo)
                 :sand
-                :gone
+                :timeline
                 frequencies)
-           {:gone 29 :zombie 1}))
+           {:past 29 :zombie 1}))
 
     (is (->> (create-game)
              (tick-n 151)
