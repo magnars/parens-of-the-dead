@@ -27,4 +27,5 @@
                                                     :asset-path "/out"
                                                     :optimizations :none
                                                     :recompile-dependents true
-                                                    :source-map true}}]}}})
+                                                    :source-map true}}]}}}
+  :aliases {"kaocha" ["run" "-m" "kaocha.runner"]})
