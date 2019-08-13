@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <title>Zombie Sweeper</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="sweeper.css">
+  </head>
+  <body>
+    <img src="zombie.png" class="watermark">
+    <div id="main">
+      <div class="board clearfix offset-y0">
+        <div class="line"><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div></div>
+        <div class="line"><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div></div>
+        <div class="line">
+          <div class="cell"><div class="tile zombie"></div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile concealed"></div></div>
+          <div class="cell"><div class="tile concealed"></div></div>
+        </div>
+        <div class="line">
+          <div class="cell"><div class="tile">2</div></div>
+          <div class="cell"><div class="tile">3</div></div>
+          <div class="cell"><div class="tile">2</div></div>
+          <div class="cell"><div class="tile zombie"></div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile concealed"></div></div>
+          <div class="cell"><div class="tile concealed"></div></div>
+        </div>
+        <div class="line">
+          <div class="cell"><div class="tile zombie"></div></div>
+          <div class="cell"><div class="tile">2</div></div>
+          <div class="cell"><div class="tile zombie"></div></div>
+          <div class="cell"><div class="tile">3</div></div>
+          <div class="cell"><div class="tile">2</div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile concealed"></div></div>
+          <div class="cell"><div class="tile concealed"></div></div>
+        </div>
+        <div class="line">
+          <div class="cell"><div class="tile">3</div></div>
+          <div class="cell"><div class="tile">4</div></div>
+          <div class="cell"><div class="tile">2</div></div>
+          <div class="cell"><div class="tile">2</div></div>
+          <div class="cell"><div class="tile zombie"></div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile concealed"></div></div>
+          <div class="cell"><div class="tile concealed"></div></div>
+        </div>
+        <div class="line">
+          <div class="cell"><div class="tile zombie"></div></div>
+          <div class="cell"><div class="tile zombie"></div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile"></div></div>
+          <div class="cell"><div class="tile">1</div></div>
+          <div class="cell"><div class="tile concealed"></div></div>
+          <div class="cell"><div class="tile concealed"></div></div>
+        </div>
+        <div class="line"><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile concealed"></div></div></div>
+        <div class="line"><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile concealed"></div></div></div>
+        <div class="line"><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile concealed"></div></div></div>
+        <div class="line"><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile concealed"></div></div></div>
+        <div class="line"><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile concealed"></div></div></div>
+        <div class="line"><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile concealed"></div></div></div>
+        <div class="line"><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="void"></div></div><div class="cell"><div class="tile wall"></div></div><div class="cell"><div class="tile concealed"></div></div></div>
+        <div class="figure x9 y3"></div>
+        <div class="left-edge-open"></div>
+        <div class="right-edge-open"></div>
+        <div class="bottom-edge-open"></div>
+      </div>
+
+      <div class="action-bar">
+        <div class="progress-bar health">
+          <div class="progress" style="width: 30%;"></div>
+          <div class="label">
+            You are hurt.
+            <p class="note">Find some bandages</p>
+          </div>
+        </div>
+        <div class="progress-bar attack hidden">
+          <div class="progress" style="width: 30%;"></div>
+          <div class="label">
+            The zombie is biting you!
+            <p class="note">Run! RUN! NOW!</p>
+          </div>
+        </div>
+        <div class="action-indicator">
+          <div class="label">
+            A medical cabinet is standing here
+            <p class="note">Press [enter] to search through it</p>
+          </div>
+        </div>
+        <div class="progress-bar action hidden">
+          <div class="progress" id="bah" style="width: 30%;"></div>
+          <div class="label">Searching through medical cabinet</div>
+        </div>
+      </div>
+    </div>
+    <div id="eaten" class="hidden">
+      <img src="eaten.png">
+    </div>
+  </body>
+</html>

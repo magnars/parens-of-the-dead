@@ -1,0 +1,240 @@
+body {
+    background-color: #889;
+}
+
+.board {
+    border: 10px solid #6e6e7e;
+    border-radius: 10px;
+    margin: 20px 20px 10px;
+    background: url(sweeper-concrete.jpg);
+    background-size: 800px;
+    background-position: 0 0;
+}
+
+.offset-x0 {background-position-x: 0;}
+.offset-x1 {background-position-x: -40px;}
+.offset-x2 {background-position-x: -80px;}
+.offset-x3 {background-position-x: -120px;}
+.offset-x4 {background-position-x: -160px;}
+.offset-x5 {background-position-x: -200px;}
+.offset-x6 {background-position-x: -240px;}
+.offset-x7 {background-position-x: -280px;}
+.offset-x8 {background-position-x: -320px;}
+.offset-x9 {background-position-x: -360px;}
+.offset-x10 {background-position-x: -400px;}
+.offset-x11 {background-position-x: -440px;}
+.offset-x12 {background-position-x: -480px;}
+.offset-x13 {background-position-x: -520px;}
+.offset-x14 {background-position-x: -560px;}
+.offset-x15 {background-position-x: -600px;}
+.offset-x16 {background-position-x: -640px;}
+.offset-x17 {background-position-x: -680px;}
+.offset-x18 {background-position-x: -720px;}
+.offset-x19 {background-position-x: -760px;}
+
+.offset-y0 {background-position-y: 0;}
+.offset-y1 {background-position-y: -40px;}
+.offset-y2 {background-position-y: -80px;}
+.offset-y3 {background-position-y: -120px;}
+.offset-y4 {background-position-y: -160px;}
+.offset-y5 {background-position-y: -200px;}
+.offset-y6 {background-position-y: -240px;}
+.offset-y7 {background-position-y: -280px;}
+.offset-y8 {background-position-y: -320px;}
+.offset-y9 {background-position-y: -360px;}
+.offset-y10 {background-position-y: -400px;}
+.offset-y11 {background-position-y: -440px;}
+.offset-y12 {background-position-y: -480px;}
+.offset-y13 {background-position-y: -520px;}
+.offset-y14 {background-position-y: -560px;}
+.offset-y15 {background-position-y: -600px;}
+.offset-y16 {background-position-y: -640px;}
+.offset-y17 {background-position-y: -680px;}
+.offset-y18 {background-position-y: -720px;}
+.offset-y19 {background-position-y: -760px;}
+
+.cell, .tile {
+    box-sizing: border-box;
+}
+
+.line {clear: both;}
+
+.cell {
+    float: left;
+    width: 40px;
+    height: 40px;
+}
+
+.tile {
+    height: 100%;
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+    font-size: 40px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+}
+
+.void {
+    height: 100%;
+    background: #000;
+}
+
+.cell:last-child .tile {
+    border-right: 1px solid #000;
+}
+
+.line:last-child .tile {
+    border-bottom: 1px solid #000;
+}
+
+.concealed {
+    background: #666;
+}
+
+.left-edge-open {position: absolute; width: 40px; height: 560px; top: 0; left: 0; background: linear-gradient(to right,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);}
+.bottom-edge-open {position: absolute; width: 560px; height: 40px; top: 520px; left: 0; background: linear-gradient(to top,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);}
+.top-edge-open {position: absolute; width: 560px; height: 40px; top: 0; left: 0; background: linear-gradient(to bottom,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);}
+.right-edge-open {position: absolute; width: 40px; height: 560px; top: 0; left: 520px; background: linear-gradient(to left,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);}
+
+.zombie {
+    background-image: url(sweeper-zombie.png);
+    background-size: 40px;
+}
+
+.dark {
+    background: #333;
+}
+
+.board {
+    position: relative;
+}
+
+.figure {
+    position: absolute;
+    width: 1600px;
+    height: 1600px;
+    background: url(sweeper-figure.png);
+    background-size: 1600px;
+}
+
+.figure.x0 {left: -780px;}
+.figure.x1 {left: -740px;}
+.figure.x2 {left: -700px;}
+.figure.x3 {left: -660px;}
+.figure.x4 {left: -620px;}
+.figure.x5 {left: -580px;}
+.figure.x6 {left: -540px;}
+.figure.x7 {left: -500px;}
+.figure.x8 {left: -460px;}
+.figure.x9 {left: -420px;}
+.figure.x10 {left: -380px;}
+.figure.x11 {left: -340px;}
+.figure.x12 {left: -300px;}
+.figure.x13 {left: -260px;}
+.figure.x14 {left: -220px;}
+.figure.x15 {left: -180px;}
+.figure.x16 {left: -140px;}
+.figure.x17 {left: -100px;}
+.figure.x18 {left: -60px;}
+.figure.x19 {left: -20px;}
+
+.figure.y0 {top: -780px;}
+.figure.y1 {top: -740px;}
+.figure.y2 {top: -700px;}
+.figure.y3 {top: -660px;}
+.figure.y4 {top: -620px;}
+.figure.y5 {top: -580px;}
+.figure.y6 {top: -540px;}
+.figure.y7 {top: -500px;}
+.figure.y8 {top: -460px;}
+.figure.y9 {top: -420px;}
+.figure.y10 {top: -380px;}
+.figure.y11 {top: -340px;}
+.figure.y12 {top: -300px;}
+.figure.y13 {top: -260px;}
+.figure.y14 {top: -220px;}
+.figure.y15 {top: -180px;}
+.figure.y16 {top: -140px;}
+.figure.y17 {top: -100px;}
+.figure.y18 {top: -60px;}
+.figure.y19 {top: -20x;}
+
+.action-bar {
+    margin-left: 40px;
+    width: 535px;
+}
+
+.sidebar {
+    position: absolute;
+    top: 30px;
+    left: 610px;
+    width: 430px;
+}
+
+.action-indicator {
+    position: relative;
+    border: 3px solid #6e6e7e;
+    border-radius: 5px;
+    height: 60px;
+    font-size: 30px;
+    text-align: center;
+    background: #aab;
+    margin-bottom: 10px;
+}
+
+h3 {font-size: 30px; font-weight: bold;}
+
+.note { font-size: 14px; opacity: 0.5; margin-top: 2px;}
+
+.progress-bar {
+    position: relative;
+    border: 3px solid #000;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.progress-bar .progress {
+    border-radius: 3px 0 0 3px;
+    height: 60px;
+}
+
+.action-bar .label {
+    width: 535px;
+}
+
+.sidebar .label {
+    width: 430px;
+}
+
+.label {
+    position: absolute;
+    top: 8px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.progress-bar.action {
+    background: #aab;
+    border: 3px solid #6e6e7e;
+}
+
+.progress-bar.action .progress {
+    background: #ccf;
+}
+
+.progress-bar.action .label {
+    top: 14px;
+}
+
+.progress-bar.attack {background: #500;}
+.progress-bar.attack .progress {background: #800;}
+.progress-bar.attack .label {color: #f22;}
+
+.progress-bar.health {background: #800;}
+.progress-bar.health .progress {background: #d00;}
+.progress-bar.health .label {color: #000;}
+
+.wall {background: #222;}
+
+.hidden {display: none;}
