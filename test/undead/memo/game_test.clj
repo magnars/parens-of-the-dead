@@ -1,6 +1,6 @@
-(ns undead.game-test
+(ns undead.memo.game-test
   (:require [clojure.test :refer [deftest is testing]]
-            [undead.game :refer :all]))
+            [undead.memo.game :refer :all]))
 
 (defn- find-face-index [game face]
   (first (keep-indexed (fn [index tile]

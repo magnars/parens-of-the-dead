@@ -1,6 +1,6 @@
-(ns undead.game-loop
+(ns undead.memo.game-loop
   (:require [clojure.core.async :refer [>! <! alts! chan close! go go-loop timeout]]
-            [undead.game :refer [create-game prep reveal-tile tick]]))
+            [undead.memo.game :refer [create-game prep reveal-tile tick]]))
 
 (defn tick-every [ms]
   (let [c (chan)]
