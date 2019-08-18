@@ -12,20 +12,15 @@
                  [cjohansen/dumdom "2019.02.03-3"]
                  [jarohen/chord "0.8.1"]
                  [org.clojure/core.async "0.4.500"]]
-  :profiles {:dev {:plugins [[lein-cljsbuild "1.1.7"]
-                             [lein-figwheel "0.5.19"]]
-                   :dependencies [[reloaded.repl "0.2.4"]
+  :profiles {:dev {:dependencies [[reloaded.repl "0.2.4"]
+                                  [com.bhauman/figwheel-main "0.2.3"]
+                                  [com.bhauman/rebel-readline-cljs "0.1.4"]
+                                  [cider/piggieback "0.4.1"]
                                   [lambdaisland/kaocha "0.0-529"]
                                   [kaocha-noyoda "2019-06-03"]]
-                   :repl-options {:init-ns user}
                    :source-paths ["dev"]
-                   :cljsbuild {:builds [{:source-paths ["src" "dev"]
-                                         :figwheel true
-                                         :compiler {:output-to "target/classes/public/app.js"
-                                                    :output-dir "target/classes/public/out"
-                                                    :main "undead.client"
-                                                    :asset-path "/out"
-                                                    :optimizations :none
-                                                    :recompile-dependents true
-                                                    :source-map true}}]}}}
-  :aliases {"kaocha" ["run" "-m" "kaocha.runner"]})
+                   :resource-paths ["target"]
+                   :clean-targets ^{:protect false} ["target"]
+                   :repl-options {:init-ns user}}}
+  :aliases {"kaocha" ["run" "-m" "kaocha.runner"]
+            "fig" ["trampoline" "run" "-m" "figwheel.main"]})
